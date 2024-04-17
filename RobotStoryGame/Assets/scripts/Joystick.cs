@@ -8,6 +8,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
 {
     private Image imageBackground;
     private Image imageController;
+    private Vector2 touchPosition;
     private void Awake()
     {
         imageBackground = GetComponent<Image>();
@@ -18,7 +19,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     }
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 touchPosition = Vector2.zero;
+        touchPosition = Vector2.zero;
 
         if( RectTransformUtility.ScreenPointToLocalPointInRectangle(
             imageBackground.rectTransform, eventData.position, eventData.pressEventCamera, out touchPosition ) )
@@ -39,17 +40,18 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public void OnPointerUp(PointerEventData eventData)
     {
         imageController.rectTransform.anchoredPosition = Vector2.zero;
+        touchPosition = Vector2.zero;
     }
 
     // Start is called before the first frame update
-    void Start()
+    public float Horizontal()
     {
-        
+        return touchPosition.x;
     }
 
     // Update is called once per frame
-    void Update()
+    public float Vertical()
     {
-        
+        return touchPosition.y;
     }
 }
